@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { TapLinkHero } from '../components/Landing/Hero';
 import { HowItWorks } from '../components/Landing/HowItWorks';
 import { ProductShop } from '../components/Landing/ProductShop';
@@ -8,6 +7,7 @@ import { Navbar } from '../components/Navbar';
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black dark:selection:bg-white selection:text-white dark:selection:text-black transition-colors">
+      <div className="fixed top-0 left-0 bg-red-500 text-white p-2 z-[9999]">Landing Page Rendering</div>
       <Navbar />
       <main>
         <TapLinkHero />

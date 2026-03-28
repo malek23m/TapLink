@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, addDoc, limit, serverTimestamp } from 'firebase/firestore';
-import { motion, AnimatePresence } from 'motion/react';
 import { 
   Github, 
   Linkedin, 
@@ -118,13 +117,11 @@ END:VCARD`;
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-      <motion.div 
-        animate={{ scale: [1, 1.1, 1] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-        className="text-2xl font-bold tracking-tighter italic dark:text-white"
+      <div 
+        className="text-2xl font-bold tracking-tighter italic dark:text-white animate-pulse"
       >
         TAPLINK
-      </motion.div>
+      </div>
     </div>
   );
 
@@ -150,9 +147,7 @@ END:VCARD`;
 
       {/* Profile Info */}
       <div className="max-w-md mx-auto px-6 -mt-16 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div 
           className="text-center"
         >
           <div className="w-32 h-32 rounded-full border-4 border-white dark:border-zinc-950 bg-gray-200 dark:bg-zinc-800 mx-auto overflow-hidden shadow-xl mb-6">
@@ -189,12 +184,11 @@ END:VCARD`;
             {profile.links?.map((link: any) => {
               const Icon = LINK_ICONS[link.type] || Globe;
               return (
-                <motion.a
+                <a
                   key={link.id}
                   href={link.url.startsWith('http') ? link.url : `https://${link.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ x: 4 }}
                   className="w-full py-5 px-8 rounded-3xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 flex items-center justify-between group hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300"
                 >
                   <div className="flex items-center gap-4">
@@ -204,7 +198,7 @@ END:VCARD`;
                     <span className="font-bold text-lg">{link.label}</span>
                   </div>
                   <Share2 className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.a>
+                </a>
               );
             })}
           </div>
@@ -216,72 +210,64 @@ END:VCARD`;
               <span className="text-xl font-bold tracking-tighter italic">TAPLINK</span>
             </a>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Lead Capture Modal */}
-      <AnimatePresence>
-        {showLeadForm && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowLeadForm(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
-            />
-            <motion.div 
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 100 }}
-              className="fixed bottom-0 left-0 right-0 z-[101] bg-white dark:bg-zinc-950 rounded-t-[3rem] p-8 max-w-md mx-auto shadow-2xl border-t border-gray-100 dark:border-zinc-900"
-            >
-              <div className="w-12 h-1.5 bg-gray-100 dark:bg-zinc-900 rounded-full mx-auto mb-8" />
-              <h2 className="text-2xl font-bold mb-2 dark:text-white">{t('profile.tapBack')}</h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">{t('profile.shareContact')} {profile.displayName}.</p>
-              
-              <form onSubmit={handleLeadSubmit} className="space-y-4">
-                <input 
-                  required
-                  type="text" 
-                  placeholder={t('profile.yourName')}
-                  value={leadData.name}
-                  onChange={(e) => setLeadData({ ...leadData, name: e.target.value })}
-                  className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 dark:text-white"
-                />
-                <input 
-                  required
-                  type="email" 
-                  placeholder={t('profile.emailAddress')}
-                  value={leadData.email}
-                  onChange={(e) => setLeadData({ ...leadData, email: e.target.value })}
-                  className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 dark:text-white"
-                />
-                <input 
-                  type="tel" 
-                  placeholder={t('profile.phoneNumber')}
-                  value={leadData.phone}
-                  onChange={(e) => setLeadData({ ...leadData, phone: e.target.value })}
-                  className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 dark:text-white"
-                />
-                <textarea 
-                  placeholder={t('profile.addNote')}
-                  value={leadData.note}
-                  onChange={(e) => setLeadData({ ...leadData, note: e.target.value })}
-                  rows={3}
-                  className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 resize-none dark:text-white"
-                />
-                <button 
-                  disabled={submittingLead}
-                  className="w-full bg-black dark:bg-white text-white dark:text-black py-5 rounded-2xl font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-all disabled:opacity-50"
-                >
-                  {submittingLead ? t('profile.sharing') : t('profile.shareContact')}
-                </button>
-              </form>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {showLeadForm && (
+        <>
+          <div 
+            onClick={() => setShowLeadForm(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+          />
+          <div 
+            className="fixed bottom-0 left-0 right-0 z-[101] bg-white dark:bg-zinc-950 rounded-t-[3rem] p-8 max-w-md mx-auto shadow-2xl border-t border-gray-100 dark:border-zinc-900"
+          >
+            <div className="w-12 h-1.5 bg-gray-100 dark:bg-zinc-900 rounded-full mx-auto mb-8" />
+            <h2 className="text-2xl font-bold mb-2 dark:text-white">{t('profile.tapBack')}</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-8">{t('profile.shareContact')} {profile.displayName}.</p>
+            
+            <form onSubmit={handleLeadSubmit} className="space-y-4">
+              <input 
+                required
+                type="text" 
+                placeholder={t('profile.yourName')}
+                value={leadData.name}
+                onChange={(e) => setLeadData({ ...leadData, name: e.target.value })}
+                className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 dark:text-white"
+              />
+              <input 
+                required
+                type="email" 
+                placeholder={t('profile.emailAddress')}
+                value={leadData.email}
+                onChange={(e) => setLeadData({ ...leadData, email: e.target.value })}
+                className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 dark:text-white"
+              />
+              <input 
+                type="tel" 
+                placeholder={t('profile.phoneNumber')}
+                value={leadData.phone}
+                onChange={(e) => setLeadData({ ...leadData, phone: e.target.value })}
+                className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 dark:text-white"
+              />
+              <textarea 
+                placeholder={t('profile.addNote')}
+                value={leadData.note}
+                onChange={(e) => setLeadData({ ...leadData, note: e.target.value })}
+                rows={3}
+                className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-black/5 resize-none dark:text-white"
+              />
+              <button 
+                disabled={submittingLead}
+                className="w-full bg-black dark:bg-white text-white dark:text-black py-5 rounded-2xl font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-all disabled:opacity-50"
+              >
+                {submittingLead ? t('profile.sharing') : t('profile.shareContact')}
+              </button>
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
 }

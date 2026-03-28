@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../AuthContext';
 import { auth } from '../firebase';

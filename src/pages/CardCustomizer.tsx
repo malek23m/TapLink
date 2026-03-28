@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, ShoppingCart, Check, CreditCard, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -43,9 +42,7 @@ export default function CardCustomizer() {
       <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Preview Area */}
         <div className="flex flex-col items-center justify-center space-y-12">
-          <motion.div 
-            animate={{ rotateY: [0, 10, -10, 0], rotateX: [0, 5, -5, 0] }}
-            transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+          <div 
             className="w-full max-w-md aspect-[1.586/1] rounded-[1.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] relative overflow-hidden preserve-3d"
             style={{ 
               backgroundColor: selectedColor,
@@ -72,9 +69,7 @@ export default function CardCustomizer() {
               
               <div className="flex flex-col items-center justify-center flex-1">
                 {logo ? (
-                  <motion.img 
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                  <img 
                     src={logo} 
                     alt="Logo" 
                     className="max-w-[140px] max-h-[140px] object-contain" 
@@ -104,7 +99,7 @@ export default function CardCustomizer() {
             {selectedMaterial.id === 'metal' && (
               <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')]" />
             )}
-          </motion.div>
+          </div>
 
           <div className="flex gap-8">
             <div className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest">

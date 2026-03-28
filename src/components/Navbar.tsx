@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { signInWithPopup, GoogleAuthProvider, AuthError } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useAuth } from '../AuthContext';

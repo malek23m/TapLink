@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { X, Smartphone, Loader2, CheckCircle2, Download, Apple } from 'lucide-react';
 import { toast } from 'sonner';
@@ -31,20 +30,14 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
   };
 
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6" dir={isRtl ? 'rtl' : 'ltr'}>
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div 
             className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
             onClick={onClose} 
           />
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          <div 
             className="bg-white dark:bg-zinc-950 rounded-[2.5rem] p-8 max-w-md w-full relative z-10 shadow-2xl border border-gray-100 dark:border-zinc-900"
           >
             <button 
@@ -65,9 +58,7 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
             </div>
 
             {success ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
+              <div 
                 className="text-center py-8 space-y-6"
               >
                 <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto" />
@@ -79,7 +70,7 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
                   <Download className="w-5 h-5" />
                   {t('wallet.download')}
                 </button>
-              </motion.div>
+              </div>
             ) : (
               <div className="space-y-6">
                 <div className="p-6 bg-gray-50 dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-zinc-800">
@@ -93,11 +84,9 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
                     </div>
                   </div>
                   <div className="h-2 bg-gray-200 dark:bg-zinc-800 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: loading ? '100%' : '0%' }}
-                      transition={{ duration: 2, ease: "easeInOut" }}
-                      className="h-full bg-black dark:bg-white rounded-full"
+                    <div 
+                      style={{ width: loading ? '100%' : '0%' }}
+                      className="h-full bg-black dark:bg-white rounded-full transition-all duration-[2000ms] ease-in-out"
                     />
                   </div>
                 </div>
@@ -122,9 +111,9 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
             <p className="mt-8 text-center text-xs text-gray-400">
               Note: This feature requires an active internet connection to generate the initial pass.
             </p>
-          </motion.div>
+          </div>
         </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

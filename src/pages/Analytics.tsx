@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../AuthContext';
 import { db } from '../firebase';
@@ -198,9 +197,8 @@ const DeviceRow = ({ label, percentage, color }: any) => (
       <span className="text-gray-500">{percentage}%</span>
     </div>
     <div className="h-2 w-full bg-gray-50 dark:bg-zinc-800 rounded-full overflow-hidden">
-      <motion.div 
-        initial={{ width: 0 }}
-        animate={{ width: `${percentage}%` }}
+      <div 
+        style={{ width: `${percentage}%` }}
         className={`h-full ${color}`}
       />
     </div>

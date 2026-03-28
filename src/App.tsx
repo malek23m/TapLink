@@ -4,10 +4,10 @@
  */
 
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './AuthContext';
-import { ThemeProvider } from './ThemeContext';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import { useTranslation } from 'react-i18next';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
@@ -17,7 +17,6 @@ import CardCustomizer from './pages/CardCustomizer';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import { Toaster } from 'sonner';
-import { ErrorBoundary } from './components/ErrorBoundary';
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
@@ -38,25 +37,22 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 export default function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider>
-        <AuthProvider>
-          <AppLayout>
-            <Router>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/auth" element={<AuthPage />} />
-                <Route path="/p/:username" element={<ProfilePage />} />
-                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-                <Route path="/editor" element={<PrivateRoute><Editor /></PrivateRoute>} />
-                <Route path="/customize" element={<PrivateRoute><CardCustomizer /></PrivateRoute>} />
-                <Route path="/analytics" element={<PrivateRoute><Analytics /></PrivateRoute>} />
-                <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
-              </Routes>
-              <Toaster position="top-center" />
-            </Router>
-          </AppLayout>
-        </AuthProvider>
-      </ThemeProvider>
+      <Router>
+        <AppLayout>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            <Route path="/editor" element={<PrivateRoute><Editor /></PrivateRoute>} />
+            <Route path="/customize" element={<PrivateRoute><CardCustomizer /></PrivateRoute>} />
+            <Route path="/analytics" element={<PrivateRoute><Analytics /></PrivateRoute>} />
+            <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+            <Route path="/:username" element={<ProfilePage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          <Toaster position="top-center" richColors />
+        </AppLayout>
+      </Router>
     </ErrorBoundary>
   );
 }

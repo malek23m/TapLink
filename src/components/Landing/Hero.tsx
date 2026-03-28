@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { ArrowRight, Zap, Globe, Smartphone } from 'lucide-react';
 import { signInWithPopup, GoogleAuthProvider, AuthError } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -29,10 +28,8 @@ export const TapLinkHero = () => {
   return (
     <section className="pt-40 pb-20 px-6 bg-white dark:bg-black transition-colors">
       <div className="max-w-7xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        <div
+          className="max-w-7xl mx-auto text-center"
         >
           <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8 dark:text-white">
             {t('hero.title')}<br />
@@ -57,12 +54,9 @@ export const TapLinkHero = () => {
               {t('hero.secondaryCta')}
             </a>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
+        <div 
           className="mt-24 relative max-w-5xl mx-auto aspect-video rounded-3xl overflow-hidden bg-gray-100 dark:bg-zinc-900 shadow-2xl border border-gray-100 dark:border-zinc-800"
         >
           <img 
@@ -79,7 +73,7 @@ export const TapLinkHero = () => {
             </div>
             <p className="text-2xl font-bold">{t('hero.features.instant.desc')}</p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

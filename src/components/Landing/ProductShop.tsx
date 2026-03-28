@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { ShoppingCart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,9 +30,8 @@ export const ProductShop = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
-            <motion.div
+            <div
               key={index}
-              whileHover={{ y: -10 }}
               className="group cursor-pointer"
             >
               <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-gray-100 dark:bg-zinc-900 mb-6 relative border border-gray-100 dark:border-zinc-800">
@@ -62,7 +60,7 @@ export const ProductShop = () => {
                 </div>
                 <div className="font-bold text-lg dark:text-white">{product.price}</div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

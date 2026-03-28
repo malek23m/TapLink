@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { ShoppingBag, Edit3, Smartphone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -37,12 +36,8 @@ export const HowItWorks = () => {
 
         <div className="grid md:grid-cols-3 gap-12">
           {steps.map((step, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
               className="bg-white dark:bg-zinc-900 p-10 rounded-3xl border border-gray-100 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className={`w-16 h-16 rounded-2xl ${step.color} dark:bg-opacity-20 flex items-center justify-center mb-8`}>
@@ -50,7 +45,7 @@ export const HowItWorks = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4 dark:text-white">{step.title}</h3>
               <p className="text-gray-500 dark:text-gray-400 leading-relaxed">{step.description}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { X, CreditCard, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { db } from '../firebase';
@@ -51,20 +50,14 @@ export default function LinkCardModal({ isOpen, onClose }: LinkCardModalProps) {
   };
 
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6" dir={isRtl ? 'rtl' : 'ltr'}>
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div 
             className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
             onClick={onClose} 
           />
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          <div 
             className="bg-white dark:bg-zinc-950 rounded-[2.5rem] p-8 max-w-md w-full relative z-10 shadow-2xl border border-gray-100 dark:border-zinc-900"
           >
             <button 
@@ -85,14 +78,12 @@ export default function LinkCardModal({ isOpen, onClose }: LinkCardModalProps) {
             </div>
 
             {success ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
+              <div 
                 className="text-center py-8"
               >
                 <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
                 <p className="font-bold text-green-500">{t('linkCard.success')}</p>
-              </motion.div>
+              </div>
             ) : (
               <form onSubmit={handleLink} className="space-y-6">
                 <div>
@@ -130,9 +121,9 @@ export default function LinkCardModal({ isOpen, onClose }: LinkCardModalProps) {
                 Linking your card allows you to share your profile instantly by tapping your card against any NFC-enabled smartphone.
               </p>
             </div>
-          </motion.div>
+          </div>
         </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }
