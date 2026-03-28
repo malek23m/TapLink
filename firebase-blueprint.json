@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Public and private user profile data.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "bio": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "coverURL": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string" },
+              "label": { "type": "string" },
+              "url": { "type": "string" },
+              "icon": { "type": "string" }
+            }
+          }
+        },
+        "theme": { "type": "string" },
+        "activeProfile": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName"]
+    },
+    "TapAnalytics": {
+      "title": "Tap Analytics",
+      "description": "Tracks taps on the NFC card.",
+      "type": "object",
+      "properties": {
+        "profileId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "location": { "type": "string" },
+        "userAgent": { "type": "string" }
+      }
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "Contact info shared back by someone who tapped.",
+      "type": "object",
+      "properties": {
+        "profileId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "note": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents."
+    },
+    "/analytics/{tapId}": {
+      "schema": "TapAnalytics",
+      "description": "Tap event logs."
+    },
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Lead capture data."
+    }
+  }
+}

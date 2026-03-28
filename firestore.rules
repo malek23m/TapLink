@@ -1,0 +1,90 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required)
+    //   - displayName: string (required)
+    //   - bio: string
+    //   - photoURL: string
+    //   - coverURL: string
+    //   - email: string
+    //   - phone: string
+    //   - whatsapp: string
+    //   - links: list
+    //   - theme: string
+    //   - activeProfile: string
+    //   - createdAt: timestamp
+    //
+    // Collection: analytics
+    // Document ID: {tapId}
+    // Fields:
+    //   - profileId: string
+    //   - timestamp: timestamp
+    //   - location: string
+    //   - userAgent: string
+    //
+    // Collection: leads
+    // Document ID: {leadId}
+    // Fields:
+    //   - profileId: string
+    //   - name: string
+    //   - email: string
+    //   - phone: string
+    //   - note: string
+    //   - timestamp: timestamp
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+    function isValidUser(data) {
+      return data.uid is string && data.displayName is string && data.displayName.size() > 0 && data.displayName.size() < 100;
+    }
+    function isValidLead(data) {
+      return data.profileId is string && data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             isValidEmail(data.email) && (data.phone == null || data.phone is string);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      // Profiles are publicly readable so people can see the portfolio
+      allow read: if true;
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidUser(request.resource.data) && 
+                      request.resource.data.uid == resource.data.uid;
+    }
+
+    match /analytics/{tapId} {
+      // Anyone can create a tap event (when they tap the card)
+      allow create: if true;
+      // Only the profile owner can read their analytics
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.profileId;
+    }
+
+    match /leads/{leadId} {
+      // Anyone can submit a lead
+      allow create: if isValidLead(request.resource.data);
+      // Only the profile owner can read their leads
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.profileId;
+    }
+  }
+}
